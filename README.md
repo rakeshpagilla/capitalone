@@ -15,6 +15,6 @@ For just printing the monthly expenses and income . java -jar target/CodingExerc
 
 For Printing the monthly expenses and income excluding donuts related transactions.   java -jar target/CodingExercise.jar -donuts
 
-For Printing the monthly expenses and income excluding credit card payments.   java -jar target/CodingExercise.jar -donuts
+For Printing the monthly expenses and income excluding credit card payments.   java -jar target/CodingExercise.jar -ignorecc
 
 Please let me know if you have any issues running this code. you can reach me at rakeshpagilla@gmail.com
