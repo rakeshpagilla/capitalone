@@ -22,7 +22,6 @@ public class DateTimeDeserializer extends JsonDeserializer<DateTime> {
     public DateTime deserialize(final JsonParser jsonParser, final DeserializationContext context) throws IOException {
 
         final String dateTime = jsonParser.getText();
-      //  System.out.println(dateTime);
         if (dateTime == null ) {
             return null;
         }
