@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The status level here is for log4j startup, not our loggers -->
+<Configuration status="INFO" xmlns="http://logging.apache.org/log4j/2.0/config">
+	<Appenders>
+		<Console name="STDOUT" target="SYSTEM_OUT">
+			<PatternLayout>
+				<!-- Log level, timestamp, class, message, newline -->
+				<Pattern>%-5p %d{yyyy-MM-dd HH:mm:sss} %c - %m%n</Pattern>
+			</PatternLayout>
+		</Console>
+	</Appenders>
+	<Loggers>
+		<Logger name="org.apache.cxf" level="info">
+			<AppenderRef ref="STDOUT"/>
+		</Logger>
+		<AsyncRoot level="debug">
+			<AppenderRef ref="STDOUT"/>
+		</AsyncRoot>
+	</Loggers>
+</Configuration>

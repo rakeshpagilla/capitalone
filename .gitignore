@@ -1,0 +1,31 @@
+
+# Apple
+.DS_Store
+
+# Netbeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+.nb-gradle/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# IDEA
+.idea/
+*.iml
+
+# Maven
+target/
+
+# Other
+.apt_generated
+.factorypath
+logs/
+bin/
