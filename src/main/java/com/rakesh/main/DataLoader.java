@@ -33,6 +33,7 @@ public class DataLoader{
 		CommandLine cmd = null;
 		ServiceClient serviceClient = new ServiceClient("https://2016.api.levelmoney.com/api/v2/core/get-all-transactions");
 		GetAllTransactionsResponse response = serviceClient.getAllTransactions(createRequest());
+		
 		try {
 			cmd = parser.parse(opts, args);
 
@@ -135,14 +136,16 @@ public class DataLoader{
 				BigDecimal currAmount = transactions.get(i).getAmount();
 				dt = dt.plusHours(24);
 				if(transactions.get(i+1).getAmount().compareTo(BigDecimal.ZERO) >0){
-					if(dt.isAfter(transactions.get(i+1).getTransactionTime())  && currAmount.compareTo(transactions.get(i+1).getAmount().abs()) == 0){
+					if(dt.isAfter(transactions.get(i+1).getTransactionTime())  && currAmount.abs().compareTo(transactions.get(i+1).getAmount()) == 0){
+						System.out.println(" Credit Card Payment Transactions Id's " + transactions.get(i).getTransactionId() + " " + transactions.get(i+1).getTransactionId());
 						spent = spent.subtract(transactions.get(i+1).getAmount().abs());
 					}else{
 						income = income.add(transactions.get(i+1).getAmount());
 					}
 				}else{
-					if(dt.isAfter(transactions.get(i+1).getTransactionTime())  && currAmount.abs().compareTo(transactions.get(i+1).getAmount()) == 0){
-						income = income.subtract(transactions.get(i+1).getAmount());
+					if(dt.isAfter(transactions.get(i+1).getTransactionTime())  && currAmount.compareTo(transactions.get(i+1).getAmount().abs()) == 0){
+						System.out.println(" Credit Card  Payment Transactions Id's " + transactions.get(i).getTransactionId() + " " + transactions.get(i+1).getTransactionId());
+						income = income.subtract(transactions.get(i+1).getAmount().abs());
 					}else{
 						spent = spent.add(transactions.get(i+1).getAmount().abs());
 					}

@@ -39,6 +39,5 @@ public class ServiceClient {
 		Invocation.Builder invocationBuilder =  webClient.request(MediaType.APPLICATION_JSON);
 		GetAllTransactionsResponse response =  invocationBuilder.post(Entity.json(getAllTransactionsRequest),GetAllTransactionsResponse.class);
 		return response;
-		
 	}
 }
