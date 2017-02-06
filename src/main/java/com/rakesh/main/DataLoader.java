@@ -32,16 +32,16 @@ public class DataLoader{
 
 		CommandLine cmd = null;
 		ServiceClient serviceClient = new ServiceClient("https://2016.api.levelmoney.com/api/v2/core/get-all-transactions");
-		GetAllTransactionsResponse response = serviceClient.doPost(createRequest());
+		GetAllTransactionsResponse response = serviceClient.getAllTransactions(createRequest());
 		try {
 			cmd = parser.parse(opts, args);
 
 			if (cmd.hasOption("-donuts")) {
-				displayPrettyResponse(response, true);
+				displayTransactionsData(response, true);
 			}else if (cmd.hasOption("-ignorecc")) {
-				displayWithoutCreditCard(response);
+				displayTransactionsWithoutCreditCardPayments(response);
 			}else{
-				displayPrettyResponse(response, false);
+				displayTransactionsData(response, false);
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -56,14 +56,19 @@ public class DataLoader{
 		return o;
 	}
 	
-	public static void displayPrettyResponse(GetAllTransactionsResponse response, boolean filterByDonuts){
-		List<Transaction> transactions = response.getTransactions();
-		Collections.sort(transactions, new Comparator<Transaction>(){
-			
-			public int compare(Transaction t1, Transaction t2){
+	
+	public static List<Transaction> sortTransactionsByDate(List<Transaction> transactions) {
+		Collections.sort(transactions, new Comparator<Transaction>() {
+
+			public int compare(Transaction t1, Transaction t2) {
 				return t1.getTransactionTime().compareTo(t2.getTransactionTime());
 			}
 		});
+		return transactions;
+	}
+	public static void displayTransactionsData(GetAllTransactionsResponse response, boolean filterByDonuts){
+		
+		List<Transaction> transactions = sortTransactionsByDate(response.getTransactions());
 		
 		int size = transactions.size();
 		int months = 0 ;
@@ -97,20 +102,15 @@ public class DataLoader{
 			totalEarnings = totalEarnings.add(income);
 			totalSpent =  totalSpent.add(spent);
 			System.out.println("\""+ transaction.getTransactionTime().getYear()+ "-" + transaction.getTransactionTime().getMonthOfYear() +
-					"\":{\"spent\":" +spent + ", \"income\":" + income + "\"},");
+					"\":{\"spent\":" +spent + ", \"income\":" + income + "},");
 		}
 		
 		System.out.println("Average  spent " +totalSpent.divide(new BigDecimal(months),RoundingMode.HALF_UP) + " income " + totalEarnings.divide(new BigDecimal(months),RoundingMode.HALF_UP));
 	}
 	
-	public static void displayWithoutCreditCard(GetAllTransactionsResponse response){
-		List<Transaction> transactions = response.getTransactions();
-		Collections.sort(transactions, new Comparator<Transaction>(){
-			
-			public int compare(Transaction t1, Transaction t2){
-				return t1.getTransactionTime().compareTo(t2.getTransactionTime());
-			}
-		});
+	public static void displayTransactionsWithoutCreditCardPayments(GetAllTransactionsResponse response){
+		
+		List<Transaction> transactions = sortTransactionsByDate(response.getTransactions());
 		
 		int size = transactions.size();
 		int months = 0 ;

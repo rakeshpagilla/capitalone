@@ -15,8 +15,6 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 
 public class DateTimeDeserializer extends JsonDeserializer<DateTime> {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(DateTimeDeserializer.class);
-    
 	 public static final String PATTERN ="yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 	 public static final DateTimeFormatter FORMATTER = DateTimeFormat.forPattern(PATTERN).withLocale(Locale.US).withZoneUTC();
 	    

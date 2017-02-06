@@ -24,21 +24,20 @@ public class ServiceClient {
 
 	private WebTarget webClient;
 
-	public ServiceClient(String endpointUrl ) {
+	public ServiceClient(String endpointUrl) {
 
 		    mapper.setSerializationInclusion(Include.NON_EMPTY);
 	        JacksonJsonProvider jsonProv = new JacksonJsonProvider(mapper);
-
 	        ClientBuilder cb = ClientBuilder.newBuilder()
 	                .register(jsonProv, MessageBodyReader.class, MessageBodyWriter.class);
 	        webClient = cb.build().target(endpointUrl);
 	}
 	
 	
-	public GetAllTransactionsResponse doPost(GetAllTransactionsRequest getAllTransactionsRequest ) throws IOException {
+	public GetAllTransactionsResponse getAllTransactions(GetAllTransactionsRequest getAllTransactionsRequest ) throws IOException {
 
 		Invocation.Builder invocationBuilder =  webClient.request(MediaType.APPLICATION_JSON);
-		GetAllTransactionsResponse response = (GetAllTransactionsResponse) invocationBuilder.post(Entity.json(getAllTransactionsRequest),GetAllTransactionsResponse.class);
+		GetAllTransactionsResponse response =  invocationBuilder.post(Entity.json(getAllTransactionsRequest),GetAllTransactionsResponse.class);
 		return response;
 		
 	}
